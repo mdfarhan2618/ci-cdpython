@@ -1,11 +1,20 @@
-FROM ubuntu:latest
+# Use the official Python image as a parent image
+FROM python:3.8-slim
 
-RUN apt-get update
-RUN apt-get install python3 -y
+# Set the working directory in the container
+WORKDIR /app
 
-WORKDIR /usr/app/src
+# Copy the app.py file into the container
+COPY app.py /app/app.py
 
-COPY print.py ./
+# Create a directory for storing data
+RUN mkdir -p /app/data
 
-CMD ["python3", "./print.py"]
+# Install Flask
+RUN pip install Flask
 
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
